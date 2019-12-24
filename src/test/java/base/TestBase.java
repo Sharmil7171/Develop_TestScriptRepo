@@ -35,6 +35,7 @@ public class TestBase {
 	public static Properties OR = new Properties();
 	public static FileInputStream fis;
 	public static Logger log = Logger.getLogger("devpinoyLogger");
+	public static String browser;
 
 	@BeforeMethod
 	@BeforeSuite
@@ -44,7 +45,6 @@ public class TestBase {
 				fis = new FileInputStream(
 						System.getProperty("user.dir") + "/src/test/resources/properties/config.properties");
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -52,7 +52,6 @@ public class TestBase {
 				config.load(fis);
 				log.debug("Config File Loaded !!!");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -60,7 +59,6 @@ public class TestBase {
 				fis = new FileInputStream(
 						System.getProperty("user.dir") + "/src/test/resources/properties/OR.properties");
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -68,26 +66,32 @@ public class TestBase {
 				OR.load(fis);
 				log.debug("OR File Loaded !!!");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
 			/*
 			 * Browser Driver configuration
 			 */
-			if (config.getProperty("browser").equalsIgnoreCase("firefox")) {
+
+			if (System.getenv("browser") != null && !System.getenv("browser").isEmpty()) {
+				browser = System.getenv("browser");
+			} else {
+				browser = config.getProperty("browser");
+			}
+
+			if (browser.equalsIgnoreCase("firefox")) {
 				System.setProperty("webdriver.gecko.driver",
 						System.getProperty("user.dir") + "/src/test/resources/executables/geckodriver");
 				driver = new FirefoxDriver();
 				log.debug("Firefox Launched !!!");
 
-			} else if (config.getProperty("browser").equalsIgnoreCase("chrome")) {
+			} else if (browser.equalsIgnoreCase("chrome")) {
 				System.setProperty("webdriver.chrome.driver",
 						System.getProperty("user.dir") + "/src/test/resources/executables/chromedriver");
 				driver = new ChromeDriver();
 				log.debug("Chrome Launched !!!");
 
-			} else if (config.getProperty("browser").equalsIgnoreCase("ie")) {
+			} else if (browser.equalsIgnoreCase("ie")) {
 				System.setProperty("webdriver.ie.driver",
 						System.getProperty("user.dir") + "/src/test/resources/executables/IEDriverServer.exe");
 				driver = new ChromeDriver();
@@ -103,7 +107,6 @@ public class TestBase {
 		}
 	}
 
-	
 	public boolean isElementPresent(By by) {
 		try {
 			driver.findElement(by);

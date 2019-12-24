@@ -1,0 +1,26 @@
+1. Maven Project:
+	
+	
+2. Base Class:
+	- This class will contains all the configurations (Properties, Driver, Commands)
+	- All the test script should extends this class
+				
+
+3. Log4j:	
+	- This is the logging configuration for the project 
+	- Configuration is mentioned in src/test/resources/log4j.properties file
+	- import org.apache.log4j.Logger --> public static Logger log = Logger.getLogger("devpinoyLogger");
+
+
+4. Properties File:
+	- config.properties --> To provide test the configuration like browser, url ..
+	- OR.properties --> To store the object locators 
+	
+	
+5. Assertion:
+	- TestNg provides Assertion to check the conditions and get appropriate response as per that
+	- Assert.assertTrue(Condition, Message), Assert.assertEqual, Assert.assertNotEqual, Assert.assertFalse, Assert.assertSame ...
+
+	
+6. Data Provider: 
+	- Excel/Json or any other data file configurations with Data Provider 
